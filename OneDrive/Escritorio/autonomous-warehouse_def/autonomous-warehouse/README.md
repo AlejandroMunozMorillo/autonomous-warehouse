@@ -99,7 +99,6 @@ docker compose up --build
 ```
 This starts all services and runs the autonomous simulation. Daily decisions and KPIs are printed to the console.
 
----
 
 ## Validation
 
@@ -112,7 +111,6 @@ The system was validated through long simulation runs (90+ simulated days) acros
 
 Simulation outputs and aggregated metrics are provided as CSV files for further analysis and comparison.
 
----
 
 ## Limitations and Future Work
 
