@@ -1,0 +1,68 @@
+
+
+
+version: '3.8'
+
+services:
+  # Service 1: MAPE-K simulator
+  mape-k-inventory-manager:
+    build: .
+    container_name: mape-k-inventory  
+    depends_on:
+      - influxdb
+    environment:
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=${INFLUXDB_TOKEN:-my-super-secret-token}
+      - INFLUXDB_ORG=mape-k-inventory-org
+      - INFLUXDB_BUCKET=inventory-metrics
+    volumes:
+      - ./results:/app/results
+      - ./config:/app/config
+    networks:
+      - mape-k-inventory-net
+
+  # Service 2: temporal series database
+  influxdb:
+    image: influxdb:2.7-alpine
+    container_name: mape-k-inventory-influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=adminpassword
+      - DOCKER_INFLUXDB_INIT_ORG=mape-k-inventory-org
+      - DOCKER_INFLUXDB_INIT_BUCKET=inventory-metrics
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=my-super-secret-token
+    volumes:
+      - influxdb-data:/var/lib/influxdb2
+      - influxdb-config:/etc/influxdb2
+    networks:
+      - mape-k-inventory-net
+
+  # Service 3: metrics dashboard
+  grafana:
+    image: grafana/grafana:latest
+    container_name: mape-k-inventory-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_INSTALL_PLUGINS=
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources
+    depends_on:
+      - influxdb
+    networks:
+      - mape-k-inventory-net
+
+volumes:
+  influxdb-data:
+  influxdb-config:
+  grafana-data:
+
+networks:
+  mape-k-inventory-net:
+    driver: bridge
