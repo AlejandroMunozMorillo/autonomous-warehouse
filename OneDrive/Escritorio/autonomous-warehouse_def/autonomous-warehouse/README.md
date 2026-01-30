@@ -24,7 +24,6 @@ Each component runs in its own container where applicable, allowing clean modula
 
 Environment (Demand Simulation) → Knowledge (State & History) → Planner (MILP + Heuristics) → Execution (Orders & Budget) → Telemetry (InfluxDB)
 
----
 
 ## Key Features
 
@@ -37,7 +36,6 @@ Environment (Demand Simulation) → Knowledge (State & History) → Planner (MIL
 - KPI tracking and storage using InfluxDB
 - Fully Dockerized execution environment
 
----
 
 ## Planning Model
 
@@ -51,7 +49,6 @@ The planner evaluates a set of candidate replenishment quantities for each SKU a
 
 A Mixed Integer Linear Programming (MILP) formulation selects the best set of orders under daily budget constraints. Additional heuristics increase replenishment priority for SKUs that recently experienced low service levels.
 
----
 
 ## KPIs
 
@@ -65,11 +62,10 @@ The system tracks and reports:
 
 KPIs are printed to the console and stored in InfluxDB for offline analysis and visualization.
 
----
 
 ## Project Structure
 
-```text
+
 autonomous-warehouse/
 ├── automatic_manager/     # Monitor, analyzer, planner, executor logic
 ├── environment/           # Demand and environment simulation
