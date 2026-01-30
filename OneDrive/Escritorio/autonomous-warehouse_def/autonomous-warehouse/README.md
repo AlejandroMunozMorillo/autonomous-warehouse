@@ -65,7 +65,7 @@ KPIs are printed to the console and stored in InfluxDB for offline analysis and 
 
 ## Project Structure
 
-
+```text
 autonomous-warehouse/
 ├── automatic_manager/     # Monitor, analyzer, planner, executor logic
 ├── environment/           # Demand and environment simulation
@@ -80,7 +80,7 @@ autonomous-warehouse/
 ├── .env.example
 ├── results/               # Simulation outputs and CSV metrics
 └── README.md
-
+```
 ## How to Run
 
 ### Requirements
@@ -96,6 +96,7 @@ autonomous-warehouse/
 
 ```bash
 docker compose up --build
+```
 This starts all services and runs the autonomous simulation. Daily decisions and KPIs are printed to the console.
 
 ---
